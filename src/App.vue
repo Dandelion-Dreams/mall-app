@@ -1,6 +1,11 @@
 <template>
-  <div id="app"></div>
+  <div id="app">
+    <van-button type="primary">主要按钮</van-button>
+  </div>
 </template>
+<script setup>
+
+</script>
 
 <style lang="less">
 * {
