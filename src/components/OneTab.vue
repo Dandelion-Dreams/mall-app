@@ -61,7 +61,7 @@ const menuList = ref([
       text-align: center;
       font-size: 12px;
       margin-top: 5px;
-      color: #fff;
+      color: #333;
     }
   }
   .active {
@@ -74,5 +74,9 @@ const menuList = ref([
       border-radius: 30px;
     }
   }
+}
+.one-tab-wrapper::-webkit-scrollbar{
+  width: 0px;
+  background: none;
 }
 </style>
