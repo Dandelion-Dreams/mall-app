@@ -1,6 +1,13 @@
 <template>
-  <div class="one-tab-wrapper">
-    <div class="tab-item" v-for="(item,i) in menuList" :key="i">
+  <div class="one-tab-wrapper" ref="oneTab">
+    <div class="tab-item"
+      v-for="(item,i) in menuList"
+      :key="item.title"
+      :class="{ active: index === i }"
+      @touchend="scrollTo(i, $event)"
+      @touchstart="move = false"
+      @touchmove="move = true"
+    >
       <div class="img-wrapper">
         <img :src=item.imgURL alt="">
       </div>
@@ -28,7 +35,27 @@ const menuList = ref([
   { title: '时令水果', imgURL: 'https://duyi-bucket.oss-cn-beijing.aliyuncs.com/img/时令水果.jpg' },
   { title: '时令水果', imgURL: 'https://duyi-bucket.oss-cn-beijing.aliyuncs.com/img/时令水果.jpg' },
   { title: '时令水果', imgURL: 'https://duyi-bucket.oss-cn-beijing.aliyuncs.com/img/时令水果.jpg' },
+  { title: '时令水果', imgURL: 'https://duyi-bucket.oss-cn-beijing.aliyuncs.com/img/时令水果.jpg' },
+  { title: '时令水果', imgURL: 'https://duyi-bucket.oss-cn-beijing.aliyuncs.com/img/时令水果.jpg' },
+  { title: '时令水果', imgURL: 'https://duyi-bucket.oss-cn-beijing.aliyuncs.com/img/时令水果.jpg' },
+  { title: '时令水果', imgURL: 'https://duyi-bucket.oss-cn-beijing.aliyuncs.com/img/时令水果.jpg' },
+  { title: '时令水果', imgURL: 'https://duyi-bucket.oss-cn-beijing.aliyuncs.com/img/时令水果.jpg' },
 ])
+
+const index = ref(0)
+const oneTab = ref()
+const scrollTo = (i, e) => {
+  if (move.value === true) {
+    return
+  }
+  index.value = i
+  // 计算移动距离
+  const itemWidth = e.target.offsetWidth
+  const itemLeft = e.target.getBoundingClientRect().left
+  const wrapperWidth = oneTab.value.offsetWidth
+  oneTab.value.scrollLeft += itemWidth / 2 + itemLeft - wrapperWidth / 2
+}
+const move = ref(false)
 </script>
 <style lang="less">
 .one-tab-wrapper {
@@ -44,7 +71,7 @@ const menuList = ref([
       width: 50px;
       height: 50px;
       display: flex;
-      justify-self: center;
+      justify-content: center;
       align-items: center;
       border-width: 2px;
       border-style: solid;
@@ -72,6 +99,7 @@ const menuList = ref([
       background-color: #d13193;
       font-weight: 500;
       border-radius: 30px;
+      color: #fff;
     }
   }
 }
