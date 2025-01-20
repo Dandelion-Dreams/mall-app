@@ -18,6 +18,7 @@
 
 <script setup>
 import { ref } from 'vue'
+import { getSideApi } from '../api/index.js'
 const menuList = ref([
   { title: '时令水果', imgURL: 'https://duyi-bucket.oss-cn-beijing.aliyuncs.com/img/时令水果.jpg' },
   { title: '时令水果', imgURL: 'https://duyi-bucket.oss-cn-beijing.aliyuncs.com/img/时令水果.jpg' },
@@ -44,7 +45,8 @@ const menuList = ref([
 
 const index = ref(0)
 const oneTab = ref()
-const scrollTo = (i, e) => {
+const move = ref(false)
+const scrollTo = async (i, e) => {
   if (move.value === true) {
     return
   }
@@ -53,9 +55,27 @@ const scrollTo = (i, e) => {
   const itemWidth = e.target.offsetWidth
   const itemLeft = e.target.getBoundingClientRect().left
   const wrapperWidth = oneTab.value.offsetWidth
-  oneTab.value.scrollLeft += itemWidth / 2 + itemLeft - wrapperWidth / 2
+  moveTo(oneTab.value.scrollLeft, itemWidth / 2 + itemLeft - wrapperWidth / 2)
+  const res = await getSideApi({ appkey: 'w123_1736868207199'})
+  console.log(res, 'res')
 }
-const move = ref(false)
+
+const moveTo = (start, end) => {
+  let dis = 0
+  let speed = 5
+  if(end < 0) {
+    speed *= -1
+  }
+  const t = setInterval(() => {
+    dis += speed
+    oneTab.value.scrollLeft = start + dis
+    if(Math.abs(dis) > Math.abs(end)) {
+      oneTab.value.scrollLeft = start + end
+      clearInterval(t)
+    }
+  }, 2);
+}
+
 </script>
 <style lang="less">
 .one-tab-wrapper {
